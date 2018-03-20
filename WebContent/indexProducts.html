@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html ng-app="clientApp">
+<head>
+<meta charset="ISO-8859-1">
+<title>Gabriel Solorzano - Beitech - Prueba</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  
+<script type="text/javascript" src="js/angular.min.js"></script>
+</head>
+<body ng-controller="orderController">
+	
+	<table border="1" cellspacing="2" cellpadding="2" title="Ordenes"
+	 class="table table-hover table-striped" style="font-size: 12px;width:100%;">
+		<tr>
+			<th>Order Id</th>
+			<th>Delivery Address</th>
+			<th>Date Creation</th>
+		</tr>
+		<tr ng-repeat="order in result">
+			<td>{{order.id}}</td>
+			<td>{{order.name}}</td>
+			<td>{{order.description}}</td>
+		</tr>
+	</table>
+	
+	<script>
+	
+		var orderUrlRequest = 'http://localhost:8080/findProductsTest';
+		
+		var app = angular.module('clientApp', []);
+		app.controller('productController', function($scope, $http){
+			
+			$http.get(orderUrlRequest).success(function(response){
+				
+				$scope.result = response.product;
+				
+			});
+			
+			$scope.enviar = function () {
+				
+				var csvIds = "";
+				
+				for ( var i = 1; i <= 5; i++ ){
+					csvIds += $("#product" + 1).val() + ",";
+				}
+				
+				$("#productsIdsCsv").val( csvIds );
+				
+	          	$http.post("http://localhost:8080/createOrder", $scope.order);
+	          	//JQuery.$post(_URL, _DATA);
+	        };
+			
+		});
+		
+	</script>
+	
+	
+	<form class="form-horizontal" data-toggle="validator" role="form" id="new_user_form"
+	 method="post" enctype="multipart/form-data" action="">
+		
+		<div id="givenname-div" class="form-group">
+		<label class="control-label col-sm-3" for="givenname">Customer ID:</label>
+		<div class="col-sm-7">
+			<div class="input-group">
+				<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+				<input type="text" class="form-control" id="customerId" name="customerId" placeholder="ID del Cliente" required="required"
+				 onblur="javascript:validar('givenname');return false;"
+				 ng-model="order.customer_id">
+				<span id="givenname-span" class=""></span>
+			</div>
+		</div>
+		<div class="col-sm-2">
+			<div id="givenname-error" class="help-block">
+				&nbsp;
+			</div>
+		</div>
+	  </div>
+	  
+	  <div id="delivery-div" class="form-group">
+		<label class="control-label col-sm-3" for="delivery">Delivery Address:</label>
+		<div class="col-sm-7">
+			<div class="input-group">
+				<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+				<input type="text" class="form-control" id="delivery" name="delivery" placeholder="Direccion exacta" required="required"
+				 onblur="javascript:validar('delivery');return false;"
+				 ng-model="order.delivery_address">
+				<span id="delivery-span" class=""></span>
+			</div>
+		</div>
+		<div class="col-sm-2">
+			<div id="delivery-error" class="help-block">
+				&nbsp;
+			</div>
+		</div>
+	  </div>
+	  
+	  <input type="hidden" id="productsIdsCsv" name="productsIdsCsv" value="" />
+	  
+	  <div id="product1-div" class="form-group">
+		<label class="control-label col-sm-3" for="product1">Product 1:</label>
+		<div class="col-sm-7">
+			<div class="input-group">
+				<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+				<input type="text" class="form-control" id="product1" name="product1" placeholder="Producto 1" required="required"
+				 onblur="javascript:validar('product1');return false;">
+				<span id="product1-span" class=""></span>
+			</div>
+		</div>
+		<div class="col-sm-2">
+			<div id="product1-error" class="help-block">
+				&nbsp;
+			</div>
+		</div>
+	  </div>
+	  
+	  <div id="product2-div" class="form-group">
+		<label class="control-label col-sm-3" for="product2">Product 2:</label>
+		<div class="col-sm-7">
+			<div class="input-group">
+				<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+				<input type="text" class="form-control" id="product2" name="product2" placeholder="Producto 2" required="required"
+				 onblur="javascript:validar('product2');return false;">
+				<span id="product2-span" class=""></span>
+			</div>
+		</div>
+		<div class="col-sm-2">
+			<div id="product2-error" class="help-block">
+				&nbsp;
+			</div>
+		</div>
+	  </div>
+	  
+	  <div id="product3-div" class="form-group">
+		<label class="control-label col-sm-3" for="product3">Product 3:</label>
+		<div class="col-sm-7">
+			<div class="input-group">
+				<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+				<input type="text" class="form-control" id="product3" name="product3" placeholder="Producto 3" required="required"
+				 onblur="javascript:validar('product3');return false;">
+				<span id="product3-span" class=""></span>
+			</div>
+		</div>
+		<div class="col-sm-2">
+			<div id="product3-error" class="help-block">
+				&nbsp;
+			</div>
+		</div>
+	  </div>
+	  
+	  <div id="product4-div" class="form-group">
+		<label class="control-label col-sm-3" for="product4">Product 4:</label>
+		<div class="col-sm-7">
+			<div class="input-group">
+				<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+				<input type="text" class="form-control" id="product4" name="product4" placeholder="Producto 4" required="required"
+				 onblur="javascript:validar('product4');return false;">
+				<span id="product4-span" class=""></span>
+			</div>
+		</div>
+		<div class="col-sm-2">
+			<div id="product4-error" class="help-block">
+				&nbsp;
+			</div>
+		</div>
+	  </div>
+	  
+	  <div id="product5-div" class="form-group">
+		<label class="control-label col-sm-3" for="product5">Product 5:</label>
+		<div class="col-sm-7">
+			<div class="input-group">
+				<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+				<input type="text" class="form-control" id="product5" name="product5" placeholder="Producto 5" required="required"
+				 onblur="javascript:validar('product5');return false;">
+				<span id="product5-span" class=""></span>
+			</div>
+		</div>
+		<div class="col-sm-2">
+			<div id="product5-error" class="help-block">
+				&nbsp;
+			</div>
+		</div>
+	  </div>
+	  
+	  <div class="form-group"> 
+		<div class="col-sm-offset-3 col-sm-2">
+		  <button type="submit" id="createOrder" 
+		   class="btn btn-success btn-lg" onclick="javascript:return submitForm();" 
+		   data-toggle="tooltip" data-placement="bottom" title="S&iacute;, deseo Crear nueva Orden"
+		   ng-click="enviar();">
+			<span class="glyphicon glyphicon-user"></span> Crear Orden </button>
+		</div>
+	  </div>
+		
+		
+	</form>
+	
+</body>
+</html>
